@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { welcome } from 'react-native';
-import WelcomeSceen from './app/screens/WelcomeSceen';
+import {WelcomeScreen,LoginScreen} from './app/screens/index';
+import {NavigationContainer} from '@react-navigation/native'
 
 export default function App() {
-  console.log('App started')
   return (
-    <WelcomeSceen></WelcomeSceen>
+    <NavigationContainer>
+      
+    </NavigationContainer>
   );
 }

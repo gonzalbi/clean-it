@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-function WelcomeSceen(props) {
+function WelcomeScreen(props) {
 
     const goToLoginScreen = () => console.log('Al login')
 
@@ -22,7 +22,7 @@ function WelcomeSceen(props) {
     );
 }
 
-export default WelcomeSceen;
+export default WelcomeScreen;
 
 const styles = StyleSheet.create({
     background : {
