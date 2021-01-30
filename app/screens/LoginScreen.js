@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
 import { ImageBackground, TextInput, StyleSheet,Text, Button } from 'react-native';
 
-function LoginScreen(props) {
+function LoginScreen({navigation}) {
 
     const [username, setUserName] = useState(username)
     const [password, setPassword] = useState(password)
 
     const tryLogin = () => {
         //TODO LOGIN FUNCTION
-        console.log(username)
-        console.log(password)
+        if(username == 'test' && password == 'test'){
+            navigation.navigate('Home')
+        }else{
+            alert('Wrong Username or Password')
+        }
     }
     return (
         <ImageBackground

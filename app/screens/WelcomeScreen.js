@@ -1,11 +1,11 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-function WelcomeScreen(props) {
+function WelcomeScreen({navigation}) {
 
-    const goToLoginScreen = () => console.log('Al login')
+    const goToLoginScreen = () => navigation.navigate('Login')
 
-    const goToRegisterScreen = () => console.log('Al Register')
+    const goToRegisterScreen = () => navigation.navigate('Register')
 
     return (
         <ImageBackground
