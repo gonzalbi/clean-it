@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         marginTop: "5%",
+        color : '#fff'
     },
     loginButton : {
         width : '100%',

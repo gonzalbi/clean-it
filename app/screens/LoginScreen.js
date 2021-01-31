@@ -49,9 +49,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     input : {
-        borderWidth : 1,
-        borderColor : "#fff",
-        margin : 10,
+        marginTop : 10,
+        marginBottom : 10,
         backgroundColor : '#fff',
         padding : 10,
         height : 50,
@@ -59,5 +58,7 @@ const styles = StyleSheet.create({
         textAlign : 'center'
     },
     loginButton : {
+        margin : 10,
+        
     }
 })
