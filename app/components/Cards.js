@@ -1,17 +1,22 @@
 import React from 'react';
 import {TouchableOpacity,StyleSheet,Text,Image,View} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
 function Cards(props) {
-    const imgsource = '../images/checklist.png'
+    const navigation = useNavigation();
+    const goToScreen = () => {
+        navigation.navigate(props.navigateToScreen)
+    }
+
     return (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() => goToScreen()}>
             <View>
                 <Image 
                     style={styles.tinyLogo}
                     source={props.path}
                 />
             </View>
-            <View>
+            <View style={styles.descriptionBox}>
                 <Text style={styles.title}>{props.title}</Text>
                 <Text 
                     style={styles.description}
@@ -34,6 +39,9 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 20,
         flexDirection : 'row'
+    },
+    descriptionBox :{
+        flex: 1,
     },
     title : {
         fontSize : 20,
