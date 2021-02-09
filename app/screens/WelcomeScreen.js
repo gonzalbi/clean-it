@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import CustomButton from '../components/CustomButton';
 
 function WelcomeScreen({navigation}) {
 
@@ -12,12 +13,19 @@ function WelcomeScreen({navigation}) {
             source={require('../images/welcomeImage.jpg')}
             style={styles.background}
         >
-            <TouchableOpacity style={styles.loginButton} onPress={() => goToLoginScreen()}>
-                <Text style={styles.buttonStyle}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.registerButton} onPress={() => goToRegisterScreen()}>
-                <Text style={styles.buttonStyle}>Register</Text>
-            </TouchableOpacity>
+            <CustomButton 
+                buttonStyle={styles.loginButton}
+                textStyle={styles.buttonStyle}
+                title='Login'
+                handlePress={goToLoginScreen}
+            />
+
+            <CustomButton 
+                buttonStyle={styles.registerButton}
+                textStyle={styles.buttonStyle}
+                title='Register'
+                handlePress={goToRegisterScreen}
+            />
         </ImageBackground>
     );
 }
