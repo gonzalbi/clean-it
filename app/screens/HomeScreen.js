@@ -17,19 +17,19 @@ function HomeScreen(props) {
                 <Card 
                     title={'Entrega y EPP'} 
                     description={''}
-                    path={images.checklist}
+                    path={images.tick}
                     navigateToScreen={''}
                 />
                 <Card 
                     title={'Capacitaciones'} 
                     description={''}
-                    path={images.checklist}
+                    path={images.capacitaciones}
                     navigateToScreen={''}
                 />
                 <Card 
                     title={'Calendario'} 
                     description={''}
-                    path={images.checklist}
+                    path={images.calendar}
                     navigateToScreen={''}
                 />
             </ScrollView>

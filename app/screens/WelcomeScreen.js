@@ -13,6 +13,7 @@ function WelcomeScreen({navigation}) {
             source={require('../images/welcomeImage.jpg')}
             style={styles.background}
         >
+            <Text style={styles.welcomeText}>Sistema de Gestion</Text>
             <CustomButton 
                 buttonStyle={styles.loginButton}
                 textStyle={styles.buttonStyle}
@@ -36,6 +37,13 @@ const styles = StyleSheet.create({
     background : {
         flex : 1,
         justifyContent : "flex-end"
+    },
+    welcomeText : {
+        fontSize : 26,
+        fontWeight : 'bold',
+        textAlign : 'center',
+        marginBottom : '120%',
+        textDecorationStyle : 'solid'
     },
     buttonStyle : {
         textAlign: 'center',

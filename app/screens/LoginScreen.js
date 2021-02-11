@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         textAlign : 'center'
     },
     loginButton : {
-        margin : 10,
+        margin : 18,
         
     }
 })

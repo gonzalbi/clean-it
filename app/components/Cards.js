@@ -33,12 +33,17 @@ export default Cards;
 
 const styles = StyleSheet.create({
     card : {
-        backgroundColor : 'grey',
+        backgroundColor : '#333',
         alignItems : 'flex-start',
         margin: 20,
         padding: 10,
+        paddingBottom : 15,
         marginTop: 20,
-        flexDirection : 'row'
+        flexDirection : 'row',
+        borderWidth : 5,
+        borderRadius : 5,
+        borderStyle : 'solid',
+        borderColor: '#4062F6',
     },
     descriptionBox :{
         flex: 1,
@@ -59,8 +64,8 @@ const styles = StyleSheet.create({
         
     },
     tinyLogo: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         marginTop : 5,
     },
 })

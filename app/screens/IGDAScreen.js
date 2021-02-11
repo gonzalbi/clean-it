@@ -104,6 +104,11 @@ function IGDAScreen(props) {
                     OperationName='Operacion 3'
                 />
             </ScrollView>
+            <CustomButton
+                    title='Enviar Reporte'
+                    buttonStyle={styles.buttonSendReport}
+                    textStyle={styles.textStyle}
+                />
         </ThemeProvider>
     );
 }
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
     textStyle : {
         textAlign: 'center',
         fontWeight: '600',
-        fontSize: 20,
+        fontSize: 16,
         color : '#fff'
     },
     buttonStyle : {
@@ -138,4 +143,9 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     
     },
+    buttonSendReport : {
+        backgroundColor : 'rgb(94, 186, 125)',
+        padding : 10,
+        alignContent: 'center',
+    }
 })
