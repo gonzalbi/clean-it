@@ -3,7 +3,7 @@ import { View,StyleSheet,Image,Text } from 'react-native';
 import images from '../images/index'
 
 
-function Capacitation(props) {
+function EPPInfo(props) {
     return (
         <View style={styles.Box}>
             <View style={styles.HeaderBox}>
@@ -22,21 +22,21 @@ function Capacitation(props) {
                         style={styles.file}
                         source={images.pdf}
                     />
-                    <Text>Capacitacion 1</Text>
+                    <Text>Ultima entrega de Ropa</Text>
                 </View>
                 <View style={styles.FileBox}>
                     <Image 
                         style={styles.file}
                         source={images.pdf}
                     />
-                    <Text>Capacitacion 2</Text>
+                    <Text>Ultima entrega de EPP</Text>
                 </View>
             </View>
         </View>
     );
 }
 
-export default Capacitation;
+export default EPPInfo;
 
 const styles = StyleSheet.create({
     Box : {
@@ -82,8 +82,7 @@ const styles = StyleSheet.create({
 
     },
     FileBox : {
-        marginRight : 40,
-        marginLeft : 40,
+        marginHorizontal : 20,
         alignItems: "center",
         alignContent : 'center',
         textAlign : 'center',

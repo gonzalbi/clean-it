@@ -16,19 +16,19 @@ function HomeScreen(props) {
                 />
                 <Card 
                     title={'Entrega y EPP'} 
-                    description={''}
+                    description={'Detalle de entrega y epp por operario y locacion'}
                     path={images.tick}
-                    navigateToScreen={''}
+                    navigateToScreen={'Entrega y EPP'}
                 />
                 <Card 
                     title={'Capacitaciones'} 
-                    description={''}
+                    description={'Detalle capacitaciones por operario y locacion'}
                     path={images.capacitaciones}
-                    navigateToScreen={''}
+                    navigateToScreen={'Capacitaciones'}
                 />
                 <Card 
                     title={'Calendario'} 
-                    description={''}
+                    description={'Detalle de proximas fechas'}
                     path={images.calendar}
                     navigateToScreen={''}
                 />

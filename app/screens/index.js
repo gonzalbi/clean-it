@@ -4,6 +4,8 @@ import RegisterScreen from './RegisterScreen';
 import HomeScreen from './HomeScreen';
 import IGDAScreen from './IGDAScreen'
 import CapacitacionesScreen from './CapacitationsScreen'
+import EntregaEPPScreen from './EntregaEPPScreen'
+
 
 export {
     LoginScreen,
@@ -11,5 +13,6 @@ export {
     RegisterScreen,
     HomeScreen,
     IGDAScreen,
-    CapacitacionesScreen
+    CapacitacionesScreen,
+    EntregaEPPScreen
 }
