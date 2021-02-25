@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
-import Operation from '../components/Operation';
 import CustomButton from '../components/CustomButton';
+import Capacitation from '../components/Capacitation';
 
-function IGDAScreen(props) {
+function CapacitacionesScreen(props) {
 
     const [modalOpen, setModal] = useState(false);
     const [selectedArray , setSelectedArray] = useState(null)
     const [location,setLocation] = useState('Locacion')
-    const [sector,setSector] = useState('Sector')
-    const [subsector,setSubSector] = useState('Sub Sector')
     const [selectedOption, setSelectedOption] = useState('')
 
     const locations = [{title : 'Empresa 1'},{title : 'Empresa 2'},{title : 'Empresa 3'},{title : 'Empresa 4'}]
-    const sections = [{title : 'Seccion 1'},{title : 'Seccion 2'},{title : 'Seccion 3'},{title : 'Seccion 4'}]
-    const subsections = [{title : 'Subseccion 1'},{title : 'Subseccion 2'},{title : 'Subseccion 3'},{title : 'Subseccion 4'}]
 
     const renderModal = (items) => {
         return (
@@ -54,7 +50,6 @@ function IGDAScreen(props) {
                 </Modal>
             
             <ScrollView style={styles.mainView}>
-                <Text style={styles.screenTitle}>Inspeccion generica de ambientes</Text>
                 <CustomButton
                     title={location}
                     buttonStyle={styles.buttonStyle}
@@ -66,52 +61,24 @@ function IGDAScreen(props) {
                         }
                     }
                 />
-                <CustomButton
-                    title={sector}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() => {
-                        setSelectedOption('Sector')
-                        setSelectedArray(sections)
-                        setModal(true)
-                        }
-                    }
+                <View style={styles.scoreBox}>
+                    <Text style={styles.scoreText}>Score : 95</Text>
+                </View>
+                <Capacitation 
+                    title='Operario 1'
                 />
-
-                <CustomButton
-                    title={subsector}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() => {
-                        setSelectedOption('Subsector')
-                        setSelectedArray(subsections)
-                        setModal(true)
-                        }
-                    }
+                <Capacitation 
+                    title='Operario 2'
                 />
-
-                <Operation 
-                    OperationName='Operacion 1'
-                />
-
-                <Operation 
-                    OperationName='Operacion 2'
-                />
-
-                <Operation 
-                    OperationName='Operacion 3'
+                <Capacitation 
+                    title='Operario 3'
                 />
             </ScrollView>
-            <CustomButton
-                    title='Enviar Reporte'
-                    buttonStyle={styles.buttonSendReport}
-                    textStyle={styles.textStyle}
-                />
         </View>
     );
 }
 
-export default IGDAScreen;
+export default CapacitacionesScreen;
 
 const styles = StyleSheet.create({
     screenTitle : {
@@ -145,5 +112,17 @@ const styles = StyleSheet.create({
         backgroundColor : 'rgb(94, 186, 125)',
         padding : 10,
         alignContent: 'center',
+    },
+    scoreBox : {
+        backgroundColor : 'rgb(94, 186, 125)',
+        padding : 10,
+        alignContent: 'center',
+        marginHorizontal : 10,
+        marginTop : 10
+    },
+    scoreText : {
+        textAlign : 'center',
+        fontSize : 16,
+        fontWeight : 'bold'
     }
 })
