@@ -68,11 +68,12 @@ const styles = StyleSheet.create({
     conteinerStyle : {
         display : 'flex',
         alignItems : 'flex-start',
-        marginTop : 10
+        marginTop : 10,
     },
     titleStyle : {
         fontSize : 18,
-        margin : 10
+        margin : 10,
+        color : '#f9f4f5'
     },
     camera : {
         flexDirection: 'row', 
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     },
     imageBox : {
         width: 256,
-        height: 256
+        height: 256,
+        color : '#f9f4f5'
     }
 })

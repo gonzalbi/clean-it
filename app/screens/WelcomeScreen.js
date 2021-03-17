@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
         fontWeight : 'bold',
         textAlign : 'center',
         marginBottom : '120%',
-        textDecorationStyle : 'solid'
+        textDecorationStyle : 'solid',
+        color: '#f9f4f5'
     },
     buttonStyle : {
         textAlign: 'center',

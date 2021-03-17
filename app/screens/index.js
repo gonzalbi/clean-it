@@ -5,6 +5,7 @@ import HomeScreen from './HomeScreen';
 import IGDAScreen from './IGDAScreen'
 import CapacitacionesScreen from './CapacitationsScreen'
 import EntregaEPPScreen from './EntregaEPPScreen'
+import CalendarScreen from './CalendarScreen'
 
 
 export {
@@ -14,5 +15,6 @@ export {
     HomeScreen,
     IGDAScreen,
     CapacitacionesScreen,
-    EntregaEPPScreen
+    EntregaEPPScreen,
+    CalendarScreen
 }

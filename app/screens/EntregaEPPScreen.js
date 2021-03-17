@@ -82,9 +82,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 10,
         marginTop: 10,
+        color : '#f9f4f5'
     },
     mainView :{
-        marginTop : 0
+        marginTop : 0,
+        backgroundColor : '#333'
     },
     button : {
         padding : 10,
@@ -120,6 +122,7 @@ const styles = StyleSheet.create({
     scoreText : {
         textAlign : 'center',
         fontSize : 16,
-        fontWeight : 'bold'
+        fontWeight : 'bold',
+        color : '#f9f4f5'
     }
 })

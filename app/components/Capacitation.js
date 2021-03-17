@@ -22,14 +22,14 @@ function Capacitation(props) {
                         style={styles.file}
                         source={images.pdf}
                     />
-                    <Text>Capacitacion 1</Text>
+                    <Text style={styles.PDFText}>Capacitacion 1</Text>
                 </View>
                 <View style={styles.FileBox}>
                     <Image 
                         style={styles.file}
                         source={images.pdf}
                     />
-                    <Text>Capacitacion 2</Text>
+                    <Text style={styles.PDFText}>Capacitacion 2</Text>
                 </View>
             </View>
         </View>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         alignItems: "center",
         alignContent : 'center',
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#16262e",
         padding : 10
     },
     SubHeaderBox : {
@@ -56,18 +56,20 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         alignItems: "center",
         alignContent : 'center',
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#16262e",
         padding : 10,
         marginTop : 5
     },
     SubHeaderText: {
         fontSize : 16,
         fontWeight : 'bold',
+        color : '#f9f4f5'
     },
     HeaderText : {
         fontSize : 18,
         fontWeight : 'bold',
-        padding : 10
+        padding : 10,
+        color : '#f9f4f5'
     },
     tinyLogo: {
         width: 30,
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     CapacitationFiles : {
         flex : 1,
         flexDirection : 'row',
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#16262e",
         padding : 10,
         marginTop : 5,
 
@@ -87,11 +89,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignContent : 'center',
         textAlign : 'center',
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#16262e",
         justifyContent : 'center',
     },
     file : {
         width: 80,
         height:80,
+    },
+    PDFText : {
+        color : '#f9f4f5'
     }
 })

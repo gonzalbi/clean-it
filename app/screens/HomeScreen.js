@@ -7,7 +7,6 @@ function HomeScreen(props) {
 
     return (
             <ScrollView style={styles.mainScren}>
-                <Text></Text>
                 <Card 
                     title={'Inspeccion'} 
                     description={'Inspeccion generica de ambientes'}
@@ -30,7 +29,7 @@ function HomeScreen(props) {
                     title={'Calendario'} 
                     description={'Detalle de proximas fechas'}
                     path={images.calendar}
-                    navigateToScreen={''}
+                    navigateToScreen={'Calendario'}
                 />
             </ScrollView>
     );

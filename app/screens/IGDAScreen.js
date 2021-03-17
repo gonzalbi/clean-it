@@ -118,9 +118,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 10,
         marginTop: 10,
+        color : '#f9f4f5'
     },
     mainView :{
-        marginTop : 0
+        marginTop : 0,
+        backgroundColor : '#333'
     },
     button : {
         padding : 10,
