@@ -8,8 +8,6 @@ function RegisterScreen(props) {
 
     const tryLogin = () => {
         //TODO LOGIN FUNCTION
-        console.log(username)
-        console.log(password)
     }
     return (
         <ImageBackground

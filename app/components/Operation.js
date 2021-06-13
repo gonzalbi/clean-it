@@ -91,6 +91,5 @@ const styles = StyleSheet.create({
     imageBox : {
         width: 256,
         height: 256,
-        color : '#f9f4f5'
     }
 })
