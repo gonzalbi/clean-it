@@ -22,7 +22,7 @@ const MyTheme = {
 export default function App() {
   return (
     <NavigationContainer  theme={MyTheme}>
-      <Stack.Navigator initialRouteName='Home' screenOptions={{headerShown: true,headerStyle:{ backgroundColor: '#0c1713'},  }}>
+      <Stack.Navigator initialRouteName='IDGA' screenOptions={{headerShown: true,headerStyle:{ backgroundColor: '#0c1713'},  }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen}/>
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="Register" component={RegisterScreen}/>

@@ -4,16 +4,18 @@ import {StyleSheet,View,Image,TouchableHighlight} from 'react-native';
 import ButtonGroup from '../components/ButtonGroup'
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import mime from "mime";
 
 function Operation(props) {
     const buttons = ['Excelente', 'Necesita Mejora', 'Atencion inmediata','Sin hacer']
     
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState({});
+    const [score, setScore] = useState(null)
 
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync(true);
+            const { status } = await ImagePicker.requestCameraPermissionsAsync(true);
             if (status !== 'granted') {
               alert('Sorry, we need camera roll permissions to make this work!');
             }
@@ -22,19 +24,22 @@ function Operation(props) {
       }, []);
     
       const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let result = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           quality: 1,
         });
     
-        console.log(result);
-    
         if (!result.cancelled) {
-          setImage(result.uri);
+          const newImageUri = Platform.OS === "android" ? "file:///" + result.uri.split("file:/").join("") : result.uri;
+          result.uri = newImageUri
+          result.type = mime.getType(newImageUri),
+          setImage(result);
         }else{
-            setImage(null)
+            setImage({})
         }
+
+        props.updateParent(props.idOperation, {name: props.OperationName, image : result, score : 0})
       };
 
     return (
@@ -42,7 +47,7 @@ function Operation(props) {
             <Text style={styles.titleStyle}>{props.OperationName}</Text>
             <View style={styles.camera}>
                 <TouchableOpacity onPress={pickImage}>
-                    {image == null ? (
+                    {Object.keys(image).length === 0  ? (
                     <Image 
                         style={styles.tinyLogo}
                         source={require('../images/photo-camera.png')}
@@ -50,9 +55,10 @@ function Operation(props) {
                     ): (
                         <Image 
                         style={styles.imageBox}
-                        source={{uri : image}}
+                        source={{uri : image.uri}}
                         /> 
                     )}
+                    
                 </TouchableOpacity>
             </View>
             <ButtonGroup   

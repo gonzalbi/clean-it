@@ -21,7 +21,7 @@ function InfoSelector(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-              'http://66.97.45.119:9000/getLocationData',
+              'http://10.0.2.2:9000/getLocationData',
             );
 
             setLocationData(result.data)
@@ -36,26 +36,29 @@ function InfoSelector(props) {
                 <CustomButton 
                     key={index}
                     id={index}
-                    title={item}
+                    title={item.Name}
                     buttonStyle={styles.buttonStyle}
                     textStyle={styles.textStyle}
                     enabled={true}
                     handlePress={() =>{
                         switch(selectedOption){
                             case 'Location':
-                                setLocation(item)
+                                setLocation(item.Name)
                                 setSector('Sector')
                                 setEnableSector(true)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(false)
+                                props.renderOperations([])
                                 break
                             case 'Sector':
-                                setSector(item)
+                                setSector(item.Name)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(true)
+                                props.renderOperations([])
                                 break
                             case 'Subsector':
-                                setSubSector(item)
+                                setSubSector(item.Name)
+                                getOperations(item.Id)
                         } 
                         setModal(false)
                         }
@@ -65,10 +68,20 @@ function InfoSelector(props) {
         )
     }
 
+    const getOperations = async (subSectId) =>{
+        const result = await axios(
+            'http://10.0.2.2:9000/getOperations/'+subSectId,
+        );
+
+        props.renderOperations(result.data)
+    }
 
     return (
         <View>
-            <Modal visible={modalOpen} animationType='slide'>
+            <Modal visible={modalOpen} 
+                animationType='slide'
+                onRequestClose={() => { setModal(false) } }
+            >
                 <ScrollView style={styles.mainView}>
                     <Text style={styles.screenTitle}>Seleccione una opcion</Text>
                     {selectedArray ? renderModal(selectedArray) : ''}
@@ -83,7 +96,7 @@ function InfoSelector(props) {
                     enabled={true}
                     handlePress={() => {
                         setSelectedOption('Location')
-                        setSelectedArray(locationData.map( item => item.Name))
+                        setSelectedArray(locationData.map( item => item))
                         setModal(true)
                         }
                     }
@@ -95,7 +108,7 @@ function InfoSelector(props) {
                     enabled={enableSector}
                     handlePress={() => {
                         setSelectedOption('Sector')
-                        setSelectedArray(locationData.filter(x => x.Name == location)[0].Sectors.map( item => item.Name))
+                        setSelectedArray(locationData.filter(x => x.Name == location)[0].Sectors.map( item => item))
                         setModal(true)
                         }
                     }
@@ -109,7 +122,7 @@ function InfoSelector(props) {
                     handlePress={() => {
                         setSelectedOption('Subsector')
                         setSelectedArray(
-                            locationData.filter(x => x.Name == location)[0].Sectors.filter( x => x.Name == sector)[0].SubSectors.map(x => x.Name)
+                            locationData.filter(x => x.Name == location)[0].Sectors.filter( x => x.Name == sector)[0].SubSectors.map(x => x)
                         )
                         setModal(true)
                         }
