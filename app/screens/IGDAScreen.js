@@ -31,35 +31,19 @@ const IGDAScreen = (props) => {
     const handleSubmit = async () => {
         let postData = operationData
         let formData = new FormData()
-        let blobData = []
 
         for(let key in postData){
-            //formData.append("operationId", key)
-            //formData.append("operationName", postData[key].name)
-            formData.append("file", {
+            formData.append("operationId", key)
+            formData.append("operationName", postData[key].name)
+            formData.append("files", {
+                id : postData[key].image.imageId,
                 uri : postData[key].image.uri,
-                name: postData[key].image.fileName, 
+                name: postData[key].image.name, 
                 type : postData[key].image.type
             })
-            //formData.append("score-"+key, postData[key].score)
+            formData.append("score-"+key, postData[key].score)
         }
 
-        /*const options = {
-            method: 'POST',
-            data: formData,
-            url : 'http://10.0.2.2:9000/saveOperationData',
-            headers: {
-                //'Content-Type' :'multipart/form-data'
-            }
-          };
-
-        axios(options)
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
-        })*/
         fetch('http://10.0.2.2:9000/saveOperationData', {
             method: 'POST',
             body: formData,

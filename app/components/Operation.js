@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 import {StyleSheet,View,Image,TouchableHighlight} from 'react-native';
 import ButtonGroup from '../components/ButtonGroup'
-import * as ImagePicker from 'expo-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import mime from "mime";
+import { PermissionsAndroid } from 'react-native';
 
 function Operation(props) {
     const buttons = ['Excelente', 'Necesita Mejora', 'Atencion inmediata','Sin hacer']
@@ -15,32 +15,48 @@ function Operation(props) {
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestCameraPermissionsAsync(true);
-            if (status !== 'granted') {
-              alert('Sorry, we need camera roll permissions to make this work!');
-            }
+            try {
+                const granted = await PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.CAMERA,
+                  {
+                    title: "App Camera Permission",
+                    message:"App needs access to your camera ",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                  }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                  console.log("Camera permission given");
+                } else {
+                  console.log("Camera permission denied");
+                }
+              } catch (err) {
+                console.warn(err);
+              }
           }
         })();
       }, []);
     
-      const pickImage = async () => {
-        let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          quality: 1,
-        });
-    
-        if (!result.cancelled) {
-          const newImageUri = Platform.OS === "android" ? "file:///" + result.uri.split("file:/").join("") : result.uri;
-          result.uri = newImageUri
-          result.type = mime.getType(newImageUri),
-          setImage(result);
-        }else{
-            setImage({})
-        }
+    const pickImage =  () => {
+      let options = {
+        mediaTypes: 'photo',
+        saveToPhotos: true,
+        selectionLimit : 1
+      }
 
-        props.updateParent(props.idOperation, {name: props.OperationName, image : result, score : 0})
-      };
+      launchCamera(options, (res) => {
+          if (!res.didCancel) {
+            let result = res.assets[0]
+            result.imageId = `${props.idOperation}`
+            result.name = `${props.OperationName}-${props.idOperation}.${result.fileName.split('.')[1]}`
+            setImage(result);
+
+            props.updateParent(props.idOperation, {name: props.OperationName, image : result, score : 0})
+          }
+        }
+      );
+    };
 
     return (
         <View style={styles.conteinerStyle}>
