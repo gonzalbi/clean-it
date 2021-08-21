@@ -35,13 +35,13 @@ const IGDAScreen = (props) => {
         for(let key in postData){
             formData.append("operationId", key)
             formData.append("operationName", postData[key].name)
+            formData.append("score", postData[key].score)
             formData.append("files", {
                 id : postData[key].image.imageId,
                 uri : postData[key].image.uri,
                 name: postData[key].image.name, 
                 type : postData[key].image.type
             })
-            formData.append("score-"+key, postData[key].score)
         }
 
         fetch('http://10.0.2.2:9000/saveOperationData', {
