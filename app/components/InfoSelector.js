@@ -2,6 +2,7 @@ import React,{ useState,useEffect } from 'react';
 import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
 import CustomButton from '../components/CustomButton';
 import axios from 'axios'
+import config from '../config'
 
 function InfoSelector(props) {
     
@@ -21,13 +22,15 @@ function InfoSelector(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-              'http://10.0.2.2:9000/getLocationData',
+              `${config.api.dev.hostname}:${config.api.dev.port}/getLocationData`,
             );
 
-            setLocationData(result.data)
+            return(result.data)
           };
        
-          fetchData();
+          fetchData()
+            .then(r => setLocationData(r))
+            .catch(e => console.log(`Error getting location data: ${e}`));
     }, [])
 
     const renderModal = (items) => {
@@ -70,7 +73,7 @@ function InfoSelector(props) {
 
     const getOperations = async (subSectId) =>{
         const result = await axios(
-            'http://10.0.2.2:9000/getOperations/'+subSectId,
+            `${config.api.dev.hostname}:${config.api.dev.port}/getOperations/${subSectId}`,
         );
 
         props.renderOperations(result.data)

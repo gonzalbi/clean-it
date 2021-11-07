@@ -4,7 +4,8 @@ import Operation from '../components/Operation';
 import CustomButton from '../components/CustomButton';
 import InfoSelector from '../components/InfoSelector';
 import { useNavigation,StackActions  } from '@react-navigation/native';
-import axios from 'axios'
+import config from '../config'
+
 
 const IGDAScreen = (props) => {
     const navigation = useNavigation();
@@ -44,13 +45,15 @@ const IGDAScreen = (props) => {
             })
         }
 
-        fetch('http://10.0.2.2:9000/saveOperationData', {
+        fetch(`${config.api.dev.hostname}:${config.api.dev.port}/saveOperationData`, {
             method: 'POST',
             body: formData,
           }).then(res => {
-            console.log(res)
+            //console.log(res)
+            navigation.dispatch(StackActions.pop(1))
           }).catch(err => {
               console.log(err)
+              alert('Hubo un error enviando los datos')
           });
 
     }
