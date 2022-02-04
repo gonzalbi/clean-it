@@ -7,7 +7,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { PermissionsAndroid } from 'react-native';
 
 function Operation(props) {
-    const buttons = ['Excelente', 'Necesita Mejora', 'Atencion inmediata','Sin hacer']
+    const buttons = [ 
+      {text : 'Excelente', value : 100}, 
+      {text : 'Necesita Mejora', value : 75}, 
+      {text :'Atencion inmediata', value : 25},
+      {text : 'Sin hacer', value : 0}
+    ]
     
     const [image, setImage] = useState({});
     const [score, setScore] = useState(null)
@@ -42,7 +47,9 @@ function Operation(props) {
       let options = {
         mediaTypes: 'photo',
         saveToPhotos: true,
-        selectionLimit : 1
+        selectionLimit : 1,
+        maxHeight: 1000,
+        includeBase64 : true
       }
 
       launchCamera(options, (res) => {
@@ -50,13 +57,19 @@ function Operation(props) {
             let result = res.assets[0]
             result.imageId = `${props.idOperation}`
             result.name = `${props.OperationName}-${props.idOperation}.${result.fileName.split('.')[1]}`
+            const action = Object.keys(image).length === 0 && score === null ? 'add' : 'update'
             setImage(result);
-
-            props.updateParent(props.idOperation, {name: props.OperationName, image : result, score : 0})
+            props.updateParent(action, {name: props.OperationName,idOperation: props.idOperation, image : result, score})
           }
         }
       );
     };
+
+    const handleButton = (selectedButton) => {
+      const action = Object.keys(image).length === 0 && score === null ? 'add' : 'update'
+      setScore(selectedButton.value)
+      props.updateParent(action, {name: props.OperationName,idOperation: props.idOperation, image, score : selectedButton.value})
+    }
 
     return (
         <View style={styles.conteinerStyle}>
@@ -77,7 +90,8 @@ function Operation(props) {
                     
                 </TouchableOpacity>
             </View>
-            <ButtonGroup   
+            <ButtonGroup
+                onSelectButton = {handleButton}   
                 buttons={buttons}
             />
         </View>

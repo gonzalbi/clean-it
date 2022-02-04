@@ -1,7 +1,7 @@
 module.exports = {
     api:{
         local:{
-            hostname:"http://66.97.45.119",
+            hostname:"http://10.0.2.2",
             port:9000
         },
         dev: {

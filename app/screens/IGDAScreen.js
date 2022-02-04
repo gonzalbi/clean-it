@@ -5,56 +5,105 @@ import CustomButton from '../components/CustomButton';
 import InfoSelector from '../components/InfoSelector';
 import { useNavigation,StackActions  } from '@react-navigation/native';
 import config from '../config'
+import axios from 'axios'
+import { TextInput } from 'react-native-gesture-handler';
 
+function operationReducer(state,action = {}){
+
+    switch (action.type) {
+        case "add":
+            state = state ? state : []
+            state.push(action.data)
+            return state
+        case "update":
+            let index = state.findIndex( item => item.name === action.data.name)
+            state[index] = action.data
+            return state
+        case "clear":
+            return []
+    }
+}
 
 const IGDAScreen = (props) => {
     const navigation = useNavigation();
+    const [subSectId,setSubSectorId] = useState(null)
     const [operations,setOperations] = useState([])
+    const [operationData,dispatch] = useReducer(operationReducer, [])
+    const [comments, setComments] = useState('')
 
-    const [operationData,dispatch] = useReducer(operationReducer, {})
-
-    function operationReducer(state,action){
-        switch (action.type) {
-            case "add":
-                state[action.value.key] = action.value.data
-                return state
-        }
-    }
-
-    const renderOperations = (data) => {
+    const renderOperations = (data,subSectId) => {
+        dispatch({type : "clear"})
         setOperations(data)
+        setSubSectorId(subSectId)
     }
 
-    const handleOperationInfo = (key,data) => {
-        dispatch({type : 'add', value : {key : key, data : data}})
+    const handleOperationInfo = (action,data) => {
+        dispatch({type : action, data})
+    }
+
+    const checkFields = () => {
+        if(operations.length === operationData.length){
+            for(const index in operations){
+                if(operationData[index]){
+                    if(operationData[index].score === null || !Object.keys(operationData[index].image).length){
+                        return false
+                    } 
+                }else{
+                    return false
+                }
+            }
+            return true
+        }else{
+            return false
+        }
     }
 
     const handleSubmit = async () => {
-        let postData = operationData
+
         let formData = new FormData()
 
-        for(let key in postData){
-            formData.append("operationId", key)
-            formData.append("operationName", postData[key].name)
-            formData.append("score", postData[key].score)
-            formData.append("files", {
-                id : postData[key].image.imageId,
-                uri : postData[key].image.uri,
-                name: postData[key].image.name, 
-                type : postData[key].image.type
-            })
+        if(!checkFields()){
+            alert('Falta completar campos')
+            return
         }
 
-        fetch(`${config.api.dev.hostname}:${config.api.dev.port}/saveOperationData`, {
-            method: 'POST',
-            body: formData,
-          }).then(res => {
-            //console.log(res)
-            navigation.dispatch(StackActions.pop(1))
-          }).catch(err => {
-              console.log(err)
-              alert('Hubo un error enviando los datos')
-          });
+        const dataAlreadySaved = await axios(
+            `${config.api.local.hostname}:${config.api.local.port}/checkOperation/${subSectId}`,
+          );
+
+        if(dataAlreadySaved.data.length > 0){
+            //alert('Ya hay datos guardados para hoy, desea sobrescribirlos?')
+            //return false
+        }
+
+        try{
+            for(let i = 0;i < operationData.length; i++){
+                formData.append("operationId", operationData[i].idOperation)
+                formData.append("operationName", operationData[i].name)
+                formData.append("score", operationData[i].score)
+                formData.append("files", {
+                    uri : operationData[i].image.uri,
+                    name: operationData[i].image.name, 
+                    type : operationData[i].image.type
+                })
+                formData.append("comments",comments)
+            }
+            //navigation.dispatch(StackActions.pop(1))
+    
+            fetch(`${config.api.local.hostname}:${config.api.local.port}/saveOperationData`, {
+                method: 'POST',
+                body: formData,
+              }).then(res => {
+                alert('Datos Enviados')
+              }).catch(err => {
+                  console.log(err)
+                  alert('Hubo un error enviando los datos')
+              });
+        }catch(e) {
+            console.log(e)
+            alert('Hubo un error procesando datos')
+        }
+
 
     }
 
@@ -75,13 +124,25 @@ const IGDAScreen = (props) => {
                     />
                 )
             }
-
-            <CustomButton
-                title='Enviar Reporte'
-                buttonStyle={styles.buttonSendReport}
-                textStyle={styles.textStyle}
-                handlePress={() => handleSubmit()}
-            />
+            { subSectId 
+            ?<>
+                <TextInput 
+                    placeholder="Ingrese comentarios..."
+                    style={styles.textArea}
+                      multiline
+                      onChangeText={newComments => setComments(newComments)}
+                      defaultValue={comments}
+                      placeholderTextColor = {'#bfbfbf'}
+                />
+                <CustomButton
+                    title='Enviar Reporte'
+                    buttonStyle={styles.buttonSendReport}
+                    textStyle={styles.textStyle}
+                    handlePress={() => handleSubmit()}
+                /> 
+            </>
+            : null
+            }
         </ScrollView>
     );
 }
@@ -110,5 +171,17 @@ const styles = StyleSheet.create({
         backgroundColor : 'rgb(94, 186, 125)',
         padding : 10,
         alignContent: 'center',
+    },
+    textArea : {
+        color : "#fff",
+        marginTop: 15,
+        marginLeft: 5,
+        marginRight: 5,
+        fontSize: 14,
+        width: 'auto',
+        borderColor: '#fff',
+        borderWidth: 1,
+        padding: 5,
+        backgroundColor: "#465362",
     }
 })

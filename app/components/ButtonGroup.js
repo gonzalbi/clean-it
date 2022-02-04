@@ -7,6 +7,7 @@ function ButtonGroup(props) {
     const [selectedIndex,setSelectIndex] = useState(false);
     const selectThis = (index)  => {
         setSelectIndex(index)
+        props.onSelectButton(props.buttons[index])
     }
 
     return (
@@ -19,7 +20,7 @@ function ButtonGroup(props) {
                         onPress={() => selectThis(index)}>
                         
                         <View style={[styles.button, index === selectedIndex ? styles.selected : null]} >
-                            <Text style={styles.text}>{item}</Text>
+                            <Text style={styles.text}>{item.text}</Text>
                         </View>
                     </TouchableHighlight>
                 )
@@ -34,6 +35,7 @@ export default ButtonGroup;
 const styles = StyleSheet.create({
     container: {
         flexDirection : 'row',
+        marginHorizontal: 5
       },
       button: {
         flex : 1,

@@ -22,19 +22,22 @@ function InfoSelector(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-              `${config.api.dev.hostname}:${config.api.dev.port}/getLocationData`,
+              `${config.api.local.hostname}:${config.api.local.port}/getLocationData`,
             );
 
             return(result.data)
           };
        
           fetchData()
-            .then(r => setLocationData(r))
-            .catch(e => console.log(`Error getting location data: ${e}`));
+            .then(res => setLocationData(res))
+            .catch(e => {
+                setLocationData([])
+                console.log(`Error getting location data: ${e}`)
+            });
     }, [])
 
     const renderModal = (items) => {
-        return (
+        return items.length > 0 ? (
             items.map((item,index) => 
                 <CustomButton 
                     key={index}
@@ -51,32 +54,32 @@ function InfoSelector(props) {
                                 setEnableSector(true)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(false)
-                                props.renderOperations([])
                                 break
                             case 'Sector':
                                 setSector(item.Name)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(true)
-                                props.renderOperations([])
                                 break
                             case 'Subsector':
                                 setSubSector(item.Name)
                                 getOperations(item.Id)
+                                break
                         } 
                         setModal(false)
                         }
                     }
                 />
             )
-        )
+        ) :
+        <Text  style={[styles.screenTitle,{textAlign: 'center',}]}>No hay datos para este {selectedOption}</Text>
+
     }
 
     const getOperations = async (subSectId) =>{
         const result = await axios(
-            `${config.api.dev.hostname}:${config.api.dev.port}/getOperations/${subSectId}`,
+            `${config.api.local.hostname}:${config.api.local.port}/getOperations/${subSectId}`,
         );
-
-        props.renderOperations(result.data)
+        props.renderOperations(result.data,subSectId)
     }
 
     return (
@@ -111,7 +114,7 @@ function InfoSelector(props) {
                     enabled={enableSector}
                     handlePress={() => {
                         setSelectedOption('Sector')
-                        setSelectedArray(locationData.filter(x => x.Name == location)[0].Sectors.map( item => item))
+                        setSelectedArray(locationData.find(x => x.Name == location).Sectors.map( item => item))
                         setModal(true)
                         }
                     }
@@ -124,9 +127,7 @@ function InfoSelector(props) {
                     enabled={enableSubSector}
                     handlePress={() => {
                         setSelectedOption('Subsector')
-                        setSelectedArray(
-                            locationData.filter(x => x.Name == location)[0].Sectors.filter( x => x.Name == sector)[0].SubSectors.map(x => x)
-                        )
+                        setSelectedArray(locationData.find(x => x.Name == location).Sectors.find( x => x.Name == sector).SubSectors.map(x => x))
                         setModal(true)
                         }
                     }
