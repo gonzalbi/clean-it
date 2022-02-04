@@ -74,7 +74,7 @@ buck-out/
 
 # Bundle artifacts
 *.jsbundle
-*.bundle
+adnroid/*.bundle
 
 # CocoaPods
 /ios/Pods/
