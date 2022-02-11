@@ -22,7 +22,7 @@ function InfoSelector(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-              `${config.api.local.hostname}:${config.api.local.port}/getLocationData`,
+              `${config.api.local.hostname}:${config.api.local.port}/idga/getLocationData`,
             );
 
             return(result.data)
@@ -77,7 +77,7 @@ function InfoSelector(props) {
 
     const getOperations = async (subSectId) =>{
         const result = await axios(
-            `${config.api.local.hostname}:${config.api.local.port}/getOperations/${subSectId}`,
+            `${config.api.local.hostname}:${config.api.local.port}/idga/getOperations/${subSectId}`,
         );
         props.renderOperations(result.data,subSectId)
     }

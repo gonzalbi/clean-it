@@ -56,7 +56,7 @@ function Operation(props) {
           if (!res.didCancel) {
             let result = res.assets[0]
             result.imageId = `${props.idOperation}`
-            result.name = `${props.OperationName}-${props.idOperation}.${result.fileName.split('.')[1]}`
+            result.name = `${props.idOperation}-${props.OperationName}.${result.fileName.split('.')[1]}`
             const action = Object.keys(image).length === 0 && score === null ? 'add' : 'update'
             setImage(result);
             props.updateParent(action, {name: props.OperationName,idOperation: props.idOperation, image : result, score})

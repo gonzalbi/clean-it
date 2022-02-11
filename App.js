@@ -20,14 +20,14 @@ const MyTheme = {
 export default function App() {
   return (
     <NavigationContainer  theme={MyTheme}>
-      <Stack.Navigator initialRouteName='Welcome' screenOptions={{headerShown: true,headerStyle:{ backgroundColor: '#0c1713'},  }}>
+      <Stack.Navigator initialRouteName='Home' screenOptions={{headerShown: true,headerStyle:{ backgroundColor: '#0c1713'},  }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen}/>
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="Register" component={RegisterScreen}/>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="IDGA" component={IGDAScreen} />
         <Stack.Screen name='Capacitaciones' component={CapacitacionesScreen} />
-        <Stack.Screen name='Entrega y EPP' component={EntregaEPPScreen} />
+        <Stack.Screen name='Entrega de Ropa y EPP' component={EntregaEPPScreen} />
         <Stack.Screen name='Calendario' component={CalendarScreen} />
 
       </Stack.Navigator>

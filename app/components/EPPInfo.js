@@ -7,10 +7,6 @@ function EPPInfo(props) {
     return (
         <View style={styles.Box}>
             <View style={styles.HeaderBox}>
-                <Image 
-                    style={styles.tinyLogo}
-                    source={Math.round(Math.random()) > 0.5 ? images.check : images.cross}
-                />
                 <Text style={styles.HeaderText}>{props.title}</Text>
             </View>
             <View style={styles.SubHeaderBox}>

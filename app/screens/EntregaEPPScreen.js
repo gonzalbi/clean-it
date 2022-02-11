@@ -1,81 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
 import CustomButton from '../components/CustomButton';
 import EPPInfo from '../components/EPPInfo';
+import LocationSelector from '../components/LocationSelector';
+import axios from 'axios'
+import config from '../config'
 
-function CapacitacionesScreen(props) {
+function EntregaEPPScreen(props) {
 
-    const [modalOpen, setModal] = useState(false);
-    const [selectedArray , setSelectedArray] = useState(null)
-    const [location,setLocation] = useState('Locacion')
-    const [selectedOption, setSelectedOption] = useState('')
+    const [sectors , setSectors] = useState([])
+    const [selectedLocation, setSelectedLocation] = useState(null)
+    
+    useEffect(() => {
+        if(selectedLocation){
+            const locationId = selectedLocation.Id
 
-    const locations = [{title : 'Empresa 1'},{title : 'Empresa 2'},{title : 'Empresa 3'},{title : 'Empresa 4'}]
+            const getEppInfo = async (locationId) => {
+                const result = await axios(
+                    `${config.api.local.hostname}:${config.api.local.port}/epp/getEPPInfo/${locationId}`,
+                  );
+                return result.data
+            }
+  
+            getEppInfo(locationId)
+                .then(res => {
+                    setSectors(res)
+                })
+                .catch(e => {
+                    setSectors([])
+                    console.log(`Error getting epp info: ${e}`)
+                });
 
-    const renderModal = (items) => {
-        return (
-            items.map((item,index) => 
-                <CustomButton 
-                    key={index}
-                    id={index}
-                    title={item.title}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() =>{
-                        switch(selectedOption){
-                            case 'Location':
-                                setLocation(item.title)
-                                break
-                            case 'Sector':
-                                setSector(item.title)
-                                break
-                            case 'Subsector':
-                                setSubSector(item.title)
-                        } 
-                        setModal(false)
-                        }
-                    }
-                />
-            )
-        )
-    }
+        }
+     }, [selectedLocation]);
 
     return (
         <View>
-                <Modal visible={modalOpen} animationType='slide'>
-                    <ScrollView style={styles.mainView}>
-                        <Text style={styles.screenTitle}>Seleccione una opcion</Text>
-                        {selectedArray ? renderModal(selectedArray) : ''}
-                    </ScrollView>
-                </Modal>
-            
             <ScrollView style={styles.mainView}>
-                <CustomButton
-                    title={location}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() => {
-                        setSelectedOption('Location')
-                        setSelectedArray(locations)
-                        setModal(true)
-                        }
-                    }
+                <LocationSelector 
+                    setSelectedLocation={setSelectedLocation}
                 />
-                <EPPInfo 
-                    title='Operario 1'
-                />
-                <EPPInfo 
-                    title='Operario 2'
-                />
-                <EPPInfo 
-                    title='Operario 3'
-                />
+                {
+                    sectors.map(sector =>
+                        <EPPInfo 
+                            title={sector.Name}
+                            key={sector.Id}
+                        />
+                    )
+                }
+
             </ScrollView>
         </View>
     );
 }
 
-export default CapacitacionesScreen;
+export default EntregaEPPScreen;
 
 const styles = StyleSheet.create({
     screenTitle : {

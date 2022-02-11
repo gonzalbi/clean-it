@@ -14,10 +14,10 @@ function HomeScreen(props) {
                     navigateToScreen={'IDGA'}
                 />
                 <Card 
-                    title={'Entrega y EPP'} 
+                    title={'Entrega de Ropa y EPP'} 
                     description={'Detalle de entrega y epp por operario y locacion'}
                     path={images.tick}
-                    navigateToScreen={'Entrega y EPP'}
+                    navigateToScreen={'Entrega de Ropa y EPP'}
                 />
                 <Card 
                     title={'Capacitaciones'} 

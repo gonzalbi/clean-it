@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
 import Operation from '../components/Operation';
 import CustomButton from '../components/CustomButton';
@@ -68,7 +68,7 @@ const IGDAScreen = (props) => {
         }
 
         const dataAlreadySaved = await axios(
-            `${config.api.local.hostname}:${config.api.local.port}/checkOperation/${subSectId}`,
+            `${config.api.local.hostname}:${config.api.local.port}/idga/checkOperation/${subSectId}`,
           );
 
         if(dataAlreadySaved.data.length > 0){
@@ -90,7 +90,7 @@ const IGDAScreen = (props) => {
             }
             //navigation.dispatch(StackActions.pop(1))
     
-            fetch(`${config.api.local.hostname}:${config.api.local.port}/saveOperationData`, {
+            fetch(`${config.api.local.hostname}:${config.api.local.port}/idga/saveOperationData`, {
                 method: 'POST',
                 body: formData,
               }).then(res => {
