@@ -68,7 +68,7 @@ const IGDAScreen = (props) => {
         }
 
         const dataAlreadySaved = await axios(
-            `${config.api.local.hostname}:${config.api.local.port}/idga/checkOperation/${subSectId}`,
+            `${config.api.local.hostname}:${config.api.local.port}/idga/checkInspection/${subSectId}`,
           );
 
         if(dataAlreadySaved.data.length > 0){
@@ -90,7 +90,7 @@ const IGDAScreen = (props) => {
             }
             //navigation.dispatch(StackActions.pop(1))
     
-            fetch(`${config.api.local.hostname}:${config.api.local.port}/idga/saveOperationData`, {
+            fetch(`${config.api.local.hostname}:${config.api.local.port}/idga/saveInspection`, {
                 method: 'POST',
                 body: formData,
               }).then(res => {

@@ -5,7 +5,8 @@ const images = {
     tick : require('./check.png'),
     check : require('./check-color.png'),
     cross : require('./remove.png'),
-    pdf : require('./pdf.png')
+    pdf : require('./pdf.png'),
+    downloadZip: require('./download-zip.png')
 };
 
 export default images;

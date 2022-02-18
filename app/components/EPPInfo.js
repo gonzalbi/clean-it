@@ -1,32 +1,44 @@
 import React from 'react';
-import { View,StyleSheet,Image,Text } from 'react-native';
+import { View,StyleSheet,Image,Text,TouchableOpacity } from 'react-native';
 import images from '../images/index'
 
 
 function EPPInfo(props) {
+
+    const generateFileName = (str) => {
+        return `${props.sectorId}_${props.title}_${str}`.replace(/\s+/g, '_')
+    }
+
     return (
         <View style={styles.Box}>
             <View style={styles.HeaderBox}>
                 <Text style={styles.HeaderText}>{props.title}</Text>
             </View>
-            <View style={styles.SubHeaderBox}>
-                <Text style={styles.SubHeaderText}>Sector</Text>
-            </View>
             <View style={styles.CapacitationFiles}>
-                <View style={styles.FileBox}>
-                    <Image 
-                        style={styles.file}
-                        source={images.pdf}
-                    />
-                    <Text style={styles.PDFText}>Ultima entrega de Ropa</Text>
-                </View>
-                <View style={styles.FileBox}>
-                    <Image 
-                        style={styles.file}
-                        source={images.pdf}
-                    />
-                    <Text style={styles.PDFText}>Ultima entrega de EPP</Text>
-                </View>
+                <TouchableOpacity onPress={() => props.handleDownload({
+                    url: `entregaRopaZip/${props.sectorId}`, 
+                    name : generateFileName('EntregaRopa.zip')
+                    })}>
+                    <View style={styles.FileBox}>
+                        <Image 
+                            style={styles.file}
+                            source={images.downloadZip}
+                        />
+                        <Text style={styles.PDFText}>Descargar ultima entrega de Ropa</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => props.handleDownload({
+                    url: `entregaEPPZip/${props.sectorId}`, 
+                    name :  generateFileName('EntregaEPP.zip')
+                    })}>
+                    <View style={styles.FileBox}>
+                        <Image 
+                            style={styles.file}
+                            source={images.downloadZip}
+                        />
+                        <Text style={styles.PDFText}>Descargar ultima entrega de EPP</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -68,29 +80,36 @@ const styles = StyleSheet.create({
         color : '#f9f4f5'
     },
     tinyLogo: {
-        width: 30,
-        height: 30,
+        width: 20,
+        height: 20,
     },
     CapacitationFiles : {
         flex : 1,
-        flexDirection : 'row',
+        //flexDirection : 'row',
         backgroundColor: "#16262e",
         padding : 5,
         marginTop : 5,
     },
     FileBox : {
-        marginHorizontal : 12,
-        alignItems: "center",
-        alignContent : 'center',
-        textAlign : 'center',
-        backgroundColor: "#16262e",
-        justifyContent : 'center',
+        marginHorizontal : 15,
+        marginVertical : 10,
+        padding : 10,
+        //alignItems: "center",
+        //alignContent : 'center',
+        //textAlign : 'center',
+        backgroundColor: "#00A884",
+        flex : 1,
+        flexDirection : 'row',
+        flexWrap : 'wrap',
+        //justifyContent : 'center',
     },
     file : {
-        width: 80,
-        height:80,
+        width: 50,
+        height:50,
+        marginRight: 15
     },
     PDFText : {
-        color : '#f9f4f5'
+        color : '#f9f4f5',
+        textAlignVertical: 'center'
     }
 })

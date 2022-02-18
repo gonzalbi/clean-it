@@ -1,10 +1,48 @@
 import React, { useState,useEffect } from 'react';
-import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
-import CustomButton from '../components/CustomButton';
+import {ScrollView,StyleSheet,View,PermissionsAndroid} from 'react-native'
 import EPPInfo from '../components/EPPInfo';
 import LocationSelector from '../components/LocationSelector';
 import axios from 'axios'
 import config from '../config'
+import RNFetchBlob from 'rn-fetch-blob'
+
+
+const askPermission = async (file) => {
+    
+    try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          download(file);
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+}
+
+const download = async (file) => {
+
+    const { dirs } = RNFetchBlob.fs;
+    RNFetchBlob.config({
+        fileCache: true,
+        addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        mediaScannable: true,
+        path: `${dirs.DownloadDir}/${file.name}`,
+        },
+    })
+    .fetch('GET', file.url, {})
+    .then((res) => {
+      console.log('The file saved to ', res.path());
+      alert(`Archivo descargado en ${dirs.DownloadDir}/${file.name}`)
+    })
+    .catch((e) => {
+      console.log(e)
+    });
+  };
+
 
 function EntregaEPPScreen(props) {
 
@@ -34,6 +72,11 @@ function EntregaEPPScreen(props) {
         }
      }, [selectedLocation]);
 
+    const handleDownload = async (fileinfo) => {
+        fileinfo.url = `${config.api.local.hostname}:${config.api.local.port}/epp/${fileinfo.url}`
+        await askPermission(fileinfo)
+    }
+
     return (
         <View>
             <ScrollView style={styles.mainView}>
@@ -45,6 +88,8 @@ function EntregaEPPScreen(props) {
                         <EPPInfo 
                             title={sector.Name}
                             key={sector.Id}
+                            sectorId={sector.Id}
+                            handleDownload = {handleDownload}
                         />
                     )
                 }

@@ -102,7 +102,7 @@ function InfoSelector(props) {
                     enabled={true}
                     handlePress={() => {
                         setSelectedOption('Location')
-                        setSelectedArray(locationData.map( item => item))
+                        setSelectedArray(locationData.length > 0 ? locationData.map( item => item) : [])
                         setModal(true)
                         }
                     }
