@@ -1,84 +1,105 @@
-import React, { useState } from 'react';
-import {ScrollView,StyleSheet,Text,Modal,View} from 'react-native'
-import CustomButton from '../components/CustomButton';
-import Capacitation from '../components/Capacitation';
+import React, { useState,useEffect } from 'react';
+import {ScrollView,StyleSheet,View,PermissionsAndroid} from 'react-native'
+import CapacitationInfo from '../components/CapacitationInfo';
+import LocationSelector from '../components/LocationSelector';
+import axios from 'axios'
+import config from '../config'
+import RNFetchBlob from 'rn-fetch-blob'
 
-function CapacitacionesScreen(props) {
 
-    const [modalOpen, setModal] = useState(false);
-    const [selectedArray , setSelectedArray] = useState(null)
-    const [location,setLocation] = useState('Locacion')
-    const [selectedOption, setSelectedOption] = useState('')
+const askPermission = async (file) => {
+    
+    try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          download(file);
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+}
 
-    const locations = [{title : 'Empresa 1'},{title : 'Empresa 2'},{title : 'Empresa 3'},{title : 'Empresa 4'}]
+const download = async (file) => {
 
-    const renderModal = (items) => {
-        return (
-            items.map((item,index) => 
-                <CustomButton 
-                    key={index}
-                    id={index}
-                    title={item.title}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() =>{
-                        switch(selectedOption){
-                            case 'Location':
-                                setLocation(item.title)
-                                break
-                            case 'Sector':
-                                setSector(item.title)
-                                break
-                            case 'Subsector':
-                                setSubSector(item.title)
-                        } 
-                        setModal(false)
-                        }
-                    }
-                />
-            )
-        )
+    const { dirs } = RNFetchBlob.fs;
+    RNFetchBlob.config({
+        fileCache: true,
+        addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        mediaScannable: true,
+        path: `${dirs.DownloadDir}/${file.name}`,
+        },
+    })
+    .fetch('GET', file.url, {})
+    .then((res) => {
+      console.log('The file saved to ', res.path());
+      alert(`Archivo descargado en ${dirs.DownloadDir}/${file.name}`)
+    })
+    .catch((e) => {
+      console.log(e)
+    });
+  };
+
+
+function CapacitationScreen(props) {
+
+    const [sectors , setSectors] = useState([])
+    const [selectedLocation, setSelectedLocation] = useState(null)
+    
+    useEffect(() => {
+        if(selectedLocation){
+            const id_operation = selectedLocation.id_location
+
+            const getEppInfo = async (id_operation) => {
+                const result = await axios(
+                    `${config.api.local.hostname}:${config.api.local.port}/epp/getOperatorsBySector/${id_operation}`,
+                  );
+                return result.data
+            }
+  
+            getEppInfo(id_operation)
+                .then(res => {
+                    setSectors(res)
+                })
+                .catch(e => {
+                    setSectors([])
+                    console.log(`Error getting epp info: ${e}`)
+                });
+
+        }
+     }, [selectedLocation]);
+
+    const handleDownload = async (fileinfo) => {
+        fileinfo.url = `${config.api.local.hostname}:${config.api.local.port}/capacitations/${fileinfo.url}`
+        await askPermission(fileinfo)
     }
 
     return (
         <View>
-                <Modal visible={modalOpen} animationType='slide'>
-                    <ScrollView style={styles.mainView}>
-                        <Text style={styles.screenTitle}>Seleccione una opcion</Text>
-                        {selectedArray ? renderModal(selectedArray) : ''}
-                    </ScrollView>
-                </Modal>
-            
             <ScrollView style={styles.mainView}>
-                <CustomButton
-                    title={location}
-                    buttonStyle={styles.buttonStyle}
-                    textStyle={styles.textStyle}
-                    handlePress={() => {
-                        setSelectedOption('Location')
-                        setSelectedArray(locations)
-                        setModal(true)
-                        }
-                    }
+                <LocationSelector 
+                    setSelectedLocation={setSelectedLocation}
                 />
-                <View style={styles.scoreBox}>
-                    <Text style={styles.scoreText}>Score : 95</Text>
-                </View>
-                <Capacitation 
-                    title='Operario 1'
-                />
-                <Capacitation 
-                    title='Operario 2'
-                />
-                <Capacitation 
-                    title='Operario 3'
-                />
+                {
+                    sectors.map(sector =>
+                        <CapacitationInfo 
+                            title={sector.name}
+                            key={sector.id_sector}
+                            sectorId={sector.id_sector}
+                            handleDownload = {handleDownload}
+                        />
+                    )
+                }
+
             </ScrollView>
         </View>
     );
 }
 
-export default CapacitacionesScreen;
+export default CapacitationScreen;
 
 const styles = StyleSheet.create({
     screenTitle : {
@@ -110,22 +131,4 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     
     },
-    buttonSendReport : {
-        backgroundColor : 'rgb(94, 186, 125)',
-        padding : 10,
-        alignContent: 'center',
-    },
-    scoreBox : {
-        backgroundColor : 'rgb(94, 186, 125)',
-        padding : 10,
-        alignContent: 'center',
-        marginHorizontal : 10,
-        marginTop : 10
-    },
-    scoreText : {
-        textAlign : 'center',
-        fontSize : 16,
-        fontWeight : 'bold',
-        color : '#f9f4f5'
-    }
 })

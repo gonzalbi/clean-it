@@ -51,16 +51,16 @@ function EntregaEPPScreen(props) {
     
     useEffect(() => {
         if(selectedLocation){
-            const locationId = selectedLocation.Id
+            const id_operation = selectedLocation.id_location
 
-            const getEppInfo = async (locationId) => {
+            const getEppInfo = async (id_operation) => {
                 const result = await axios(
-                    `${config.api.local.hostname}:${config.api.local.port}/epp/getEPPInfo/${locationId}`,
+                    `${config.api.local.hostname}:${config.api.local.port}/epp/getOperatorsBySector/${id_operation}`,
                   );
                 return result.data
             }
   
-            getEppInfo(locationId)
+            getEppInfo(id_operation)
                 .then(res => {
                     setSectors(res)
                 })
@@ -86,9 +86,9 @@ function EntregaEPPScreen(props) {
                 {
                     sectors.map(sector =>
                         <EPPInfo 
-                            title={sector.Name}
-                            key={sector.Id}
-                            sectorId={sector.Id}
+                            title={sector.name}
+                            key={sector.id_sector}
+                            sectorId={sector.id_sector}
                             handleDownload = {handleDownload}
                         />
                     )
@@ -131,22 +131,4 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     
     },
-    buttonSendReport : {
-        backgroundColor : 'rgb(94, 186, 125)',
-        padding : 10,
-        alignContent: 'center',
-    },
-    scoreBox : {
-        backgroundColor : 'rgb(94, 186, 125)',
-        padding : 10,
-        alignContent: 'center',
-        marginHorizontal : 10,
-        marginTop : 10
-    },
-    scoreText : {
-        textAlign : 'center',
-        fontSize : 16,
-        fontWeight : 'bold',
-        color : '#f9f4f5'
-    }
 })

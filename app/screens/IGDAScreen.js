@@ -117,9 +117,9 @@ const IGDAScreen = (props) => {
             {
                 operations.map(operation =>
                     <Operation 
-                        idOperation={operation.Id}
-                        key={operation.Id}
-                        OperationName={operation.Name}
+                        idOperation={operation.id_operation}
+                        key={operation.id_operation}
+                        OperationName={operation.name}
                         updateParent={handleOperationInfo}
                     />
                 )

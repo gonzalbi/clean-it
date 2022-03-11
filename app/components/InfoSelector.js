@@ -42,27 +42,27 @@ function InfoSelector(props) {
                 <CustomButton 
                     key={index}
                     id={index}
-                    title={item.Name}
+                    title={item.name}
                     buttonStyle={styles.buttonStyle}
                     textStyle={styles.textStyle}
                     enabled={true}
                     handlePress={() =>{
                         switch(selectedOption){
                             case 'Location':
-                                setLocation(item.Name)
+                                setLocation(item.name)
                                 setSector('Sector')
                                 setEnableSector(true)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(false)
                                 break
                             case 'Sector':
-                                setSector(item.Name)
+                                setSector(item.name)
                                 setSubSector('Sub Sector')
                                 setEnableSubSector(true)
                                 break
                             case 'Subsector':
-                                setSubSector(item.Name)
-                                getOperations(item.Id)
+                                setSubSector(item.name)
+                                getOperations(item.id_subsector)
                                 break
                         } 
                         setModal(false)
@@ -114,7 +114,7 @@ function InfoSelector(props) {
                     enabled={enableSector}
                     handlePress={() => {
                         setSelectedOption('Sector')
-                        setSelectedArray(locationData.find(x => x.Name == location).Sectors.map( item => item))
+                        setSelectedArray(locationData.find(x => x.name == location).Sectors.map( item => item))
                         setModal(true)
                         }
                     }
@@ -127,7 +127,7 @@ function InfoSelector(props) {
                     enabled={enableSubSector}
                     handlePress={() => {
                         setSelectedOption('Subsector')
-                        setSelectedArray(locationData.find(x => x.Name == location).Sectors.find( x => x.Name == sector).SubSectors.map(x => x))
+                        setSelectedArray(locationData.find(x => x.name == location).Sectors.find( x => x.name == sector).Subsectors.map(x => x))
                         setModal(true)
                         }
                     }

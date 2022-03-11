@@ -37,12 +37,12 @@ function LocationSelector(props) {
                 <CustomButton 
                     key={index}
                     id={index}
-                    title={item.Name}
+                    title={item.name}
                     buttonStyle={styles.buttonStyle}
                     textStyle={styles.textStyle}
                     enabled={true}
                     handlePress={() =>{
-                        setLocation(item.Name)
+                        setLocation(item.name)
                         props.setSelectedLocation(item)
                         setModal(false)
                         }
